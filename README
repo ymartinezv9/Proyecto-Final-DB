@@ -1,0 +1,165 @@
+# Sistema de Gestión de Órdenes de Reparación de un Taller Automotriz
+
+## 1. Descripción del proyecto
+
+Proyecto desarrollado para el curso de **Base de Datos 1**, cuyo propósito es diseñar e implementar una base de datos relacional para administrar las operaciones de un taller automotriz.
+
+El sistema permite organizar la información de clientes, vehículos, mecánicos, servicios, repuestos y órdenes de reparación. También permite registrar los servicios y repuestos utilizados en cada orden, así como identificar a los mecánicos que participan en las reparaciones.
+
+La base de datos conserva los precios aplicados durante cada reparación para mantener la integridad del historial de costos, incluso cuando los precios actuales de los servicios o repuestos cambian.
+
+## 2. Objetivos
+
+- Administrar los datos de clientes y sus vehículos.
+- Registrar y consultar órdenes de reparación.
+- Asociar varios servicios y repuestos a una misma orden.
+- Registrar la participación y las horas trabajadas por los mecánicos.
+- Conservar los costos históricos de las reparaciones.
+- Generar consultas para analizar los costos, servicios, repuestos y participación del personal.
+
+## 3. Tecnologías utilizadas
+
+- **Sistema gestor de base de datos:** Microsoft SQL Server.
+- **Herramienta de administración:** SQL Server Management Studio (SSMS).
+- **Lenguaje de consultas:** Transact-SQL (T-SQL).
+- **Documentación:** Markdown.
+
+## 4. Estructura del proyecto
+
+```text
+Proyecto_TallerAutomotriz/
+│
+├── D01_Creacion_Base_Datos.sql
+├── D02_Insercion_Datos.sql
+├── D03_Consultas_SQL.sql
+│
+├── Documentacion/
+│   ├── D04-Analisis_Problema.md
+│   ├── D05-Diagrama_ER.md
+│   └── D06-Normalizacion.md
+│
+└── README.md
+```
+
+## 5. Requisitos previos
+
+Antes de ejecutar el proyecto, es necesario contar con:
+
+1. Microsoft SQL Server instalado y funcionando.
+2. SQL Server Management Studio (SSMS).
+3. Acceso a una instancia de SQL Server con permisos para crear bases de datos.
+4. Los archivos SQL incluidos en el proyecto.
+
+## 6. Instalación y configuración
+
+### Paso 1. Conectarse a SQL Server
+
+1. Abrir SQL Server Management Studio.
+2. Seleccionar la instancia de SQL Server correspondiente.
+3. Iniciar sesión utilizando el método de autenticación configurado en el servidor.
+
+### Paso 2. Crear la base de datos
+
+1. Abrir el archivo `04_Creacion_Base_Datos.sql`.
+2. Ejecutar el script completo.
+3. Verificar que la base de datos `TallerAutomotrizDB` aparezca en el explorador de objetos de SSMS.
+
+Este script crea la base de datos, las tablas, las claves primarias, las claves foráneas, las restricciones de integridad y los índices adicionales.
+
+### Paso 3. Insertar los datos de prueba
+
+1. Abrir el archivo `05_Insercion_Datos.sql`.
+2. Ejecutar el script completo.
+3. Revisar los resultados de verificación que aparecen al finalizar la ejecución.
+
+El script incorpora registros de prueba para clientes, vehículos, mecánicos, servicios, repuestos y órdenes de reparación, incluyendo sus respectivos detalles y participaciones de mecánicos.
+
+**Importante:** ejecutar este script una sola vez sobre una base de datos vacía. Si se necesita repetir la prueba desde cero, primero debe prepararse nuevamente la base de datos.
+
+### Paso 4. Ejecutar las consultas SQL
+
+1. Abrir el archivo `06_Consultas_SQL.sql`.
+2. Ejecutar cada consulta individualmente o ejecutar el script completo.
+3. Revisar los resultados obtenidos en la pestaña de resultados de SSMS.
+
+Las consultas permiten analizar:
+
+- Resumen de órdenes de reparación.
+- Historial de reparaciones por vehículo.
+- Mecánicos con mayor participación.
+- Servicios más solicitados.
+- Consumo de repuestos.
+- Ingresos por cliente y tipo de servicio.
+- Clientes con gastos superiores al promedio.
+
+## 7. Modelo de datos
+
+La base de datos está compuesta por nueve tablas:
+
+| Tabla | Descripción |
+|---|---|
+| Cliente | Almacena la información de los clientes. |
+| Vehiculo | Registra los vehículos asociados a cada cliente. |
+| Mecanico | Contiene la información del personal mecánico. |
+| OrdenReparacion | Registra las órdenes de reparación y sus datos principales. |
+| Servicio | Almacena el catálogo de servicios ofrecidos. |
+| Repuesto | Almacena el catálogo de repuestos disponibles. |
+| DetalleServicioOrden | Relaciona los servicios con las órdenes y conserva sus precios aplicados. |
+| DetalleRepuestoOrden | Relaciona los repuestos con las órdenes y conserva sus precios aplicados. |
+| ParticipacionMecanico | Registra los mecánicos que participan en cada orden y sus horas trabajadas. |
+
+## 8. Reglas importantes de funcionamiento
+
+- Cada vehículo pertenece a un cliente.
+- Cada orden de reparación corresponde a un vehículo y tiene un mecánico responsable.
+- Una orden puede incluir varios servicios y repuestos.
+- Una orden puede contar con la participación de varios mecánicos.
+- Los precios históricos se almacenan en los detalles de cada orden mediante el atributo `precio_aplicado`.
+- Las cantidades y los precios deben cumplir las restricciones de integridad definidas en la base de datos.
+- Las claves foráneas protegen los registros relacionados frente a eliminaciones accidentales.
+
+## 9. Verificación de la instalación
+
+Después de ejecutar los scripts, se puede comprobar la existencia de las tablas mediante:
+
+```sql
+USE TallerAutomotrizDB;
+
+SELECT TABLE_NAME AS NombreTabla
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE'
+ORDER BY TABLE_NAME;
+```
+
+También se pueden consultar los registros almacenados mediante:
+
+```sql
+SELECT * FROM Cliente;
+SELECT * FROM Vehiculo;
+SELECT * FROM Mecanico;
+SELECT * FROM OrdenReparacion;
+SELECT * FROM Servicio;
+SELECT * FROM Repuesto;
+SELECT * FROM DetalleServicioOrden;
+SELECT * FROM DetalleRepuestoOrden;
+SELECT * FROM ParticipacionMecanico;
+```
+
+## 10. Autor
+
+**Estudiante:** Lutwing Yussef Martinez Vasquez  
+**Curso:** Base de Datos 1  
+**Universidad:** Universidad Mariano Gálvez de Guatemala  
+**Fecha:** 14/11/2026
+
+## 11. Estado del proyecto
+
+- [x] Análisis del problema.
+- [x] Diagrama entidad-relación.
+- [x] Normalización de la base de datos.
+- [x] Script de creación de la base de datos y tablas.
+- [x] Script de inserción de datos.
+- [x] Script de las siete consultas SQL.
+- [ ] Desarrollo de la aplicación.
+- [ ] Instrucciones finales para configurar y ejecutar la aplicación.
+- [ ] Video de evidencias del proyecto.
